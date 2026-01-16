@@ -5,19 +5,27 @@ import mediapipe as mp
 # from mediapipe.tasks import python
 # from mediapipe.tasks.python import vision
 
-cap = cv2.VideoCapture(0)
+inputVideo = cv2.VideoCapture("media/test_video.mp4")
 
-if not cap.isOpened():
-    print("Failed to open webcam")
+if not inputVideo.isOpened():
+    print("Video failed to open")
     exit()
 
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        print("Failed to grab frame")
+videoFps = inputVideo.get(cv2.CAP_PROP_FPS)
+videoWidth = int(inputVideo.get(cv2.CAP_PROP_FRAME_WIDTH))
+videoHeight = int(inputVideo.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+outputVideo = cv2.VideoWriter("media/output_video.mp4", cv2.VideoWriter_fourcc(*'mp4v'), videoFps, (videoWidth, videoHeight))
+
+while (inputVideo.isOpened()):
+    videoReturn, videoFrame = inputVideo.read()
+
+    if not videoReturn:
         break
 
-    cv2.imshow('Sign Language Detection', frame)
+    # add hand detection and overlay here next time
+    
+    outputVideo.write(videoFrame)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+inputVideo.release()
+outputVideo.release()
