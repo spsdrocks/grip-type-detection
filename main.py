@@ -2,6 +2,22 @@
 import cv2
 import time
 import mediapipe as mp
+import numpy as np
+
+# Converts provided landmarks to vectors and gets the angle between them
+def getAngle(landmarkOne, landmarkTwo, landmarkThree):
+    # Convert landmarks to vectors
+    vectorOne = np.array([landmarkOne.x - landmarkTwo.x, landmarkOne.y - landmarkTwo.y, landmarkOne.z - landmarkTwo.z])
+    vectorTwo = np.array([landmarkTwo.x - landmarkThree.x, landmarkTwo.y - landmarkThree.y, landmarkTwo.z - landmarkThree.z])
+
+    # Get length of vectors
+    magOne = np.linalg.norm(vectorOne)
+    magTwo = np.linalg.norm(vectorTwo)
+
+    # Get the angle using dot product formula
+    resultAngle = np.arccos(np.dot(vectorOne, vectorTwo) / (magOne * magTwo))
+
+    return resultAngle
 
 # Load model prerequisites
 baseOptions = mp.tasks.BaseOptions
@@ -61,7 +77,7 @@ while (inputVideo.isOpened()):
                 x = int(landmark.x * videoFrame.shape[1])
                 y = int(landmark.y * videoFrame.shape[0])
                 cv2.circle(videoFrame, (x, y), 4, (0, 255, 0), -1)
-    
+
     # Write the processed frame to output video
     outputVideo.write(videoFrame)
 
