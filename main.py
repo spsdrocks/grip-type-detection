@@ -17,7 +17,11 @@ def getAngle(landmarkOne, landmarkTwo, landmarkThree):
     # Get the angle using dot product formula
     resultAngle = np.arccos(np.dot(vectorOne, vectorTwo) / (magOne * magTwo))
 
-    return resultAngle
+    return np.degrees(resultAngle)
+
+def getFingerGrip(fingerAngleOne, fingerAngleTwo, halfAngle, fullAngle):
+    # Finish this, also consider an alternate method
+    return 0
 
 # Load model prerequisites
 baseOptions = mp.tasks.BaseOptions
@@ -32,7 +36,7 @@ handLandmarker = mp.tasks.vision.HandLandmarker
 handLandmarker = handLandmarker.create_from_options(modelOptions)
 
 # Load input video file
-inputVideo = cv2.VideoCapture("media/test_video.mp4")
+inputVideo = cv2.VideoCapture("media/test_video_2.mp4")
 
 # Quit if file not found
 if not inputVideo.isOpened():
@@ -79,13 +83,18 @@ while (inputVideo.isOpened()):
                 cv2.circle(videoFrame, (x, y), 4, (0, 255, 0), -1)
 
     # Get angle for each fingers middle joint
-    pointerAngle = getAngle(hand_landmarks[5], hand_landmarks[6], hand_landmarks[7])
-    middleAngle = getAngle(hand_landmarks[9], hand_landmarks[10], hand_landmarks[11])
-    ringAngle = getAngle(hand_landmarks[13], hand_landmarks[14], hand_landmarks[15])
+    pointerAngleOne = getAngle(hand_landmarks[5], hand_landmarks[6], hand_landmarks[7])
+    middleAngleOne = getAngle(hand_landmarks[9], hand_landmarks[10], hand_landmarks[11])
+    ringAngleOne = getAngle(hand_landmarks[13], hand_landmarks[14], hand_landmarks[15])
+
+    # Get angle for each fingers outside joint
+    pointerAngleTwo = getAngle(hand_landmarks[6], hand_landmarks[7], hand_landmarks[8])
+    middleAngleTwo = getAngle(hand_landmarks[10], hand_landmarks[11], hand_landmarks[12])
+    ringAngleTwo = getAngle(hand_landmarks[14], hand_landmarks[15], hand_landmarks[16])
 
     # Print the angles on the video
-    anglesString = "P: {}, M: {}, R: {}".format(round(np.degrees(pointerAngle), 2), round(np.degrees(middleAngle), 2), round(np.degrees(ringAngle), 2))
-    cv2.putText(videoFrame, anglesString, (5, 120), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0))
+    # anglesString = "P: {}, M: {}, R: {}".format(round(np.degrees(pointerAngleOne), 2), round(np.degrees(middleAngleOne), 2), round(np.degrees(ringAngleOne), 2))
+    # cv2.putText(videoFrame, anglesString, (5, 120), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0))
 
     # Write the processed frame to output video
     outputVideo.write(videoFrame)
