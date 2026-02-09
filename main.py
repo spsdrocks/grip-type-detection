@@ -4,8 +4,14 @@ import time
 import mediapipe as mp
 import numpy as np
 
-# Converts provided landmarks to vectors and gets the angle between them
 def getAngle(landmarkOne, landmarkTwo, landmarkThree):
+    """Gets the angle at a joint based on position of surrounding ones
+
+    :landmarkOne: Joint closer to wrist
+    :landmarkTwo: Joint of interest
+    :landmarkThree: Joint further from wrist
+    :Return: Current Angle in degrees"""
+
     # Convert landmarks to vectors
     vectorOne = np.array([landmarkOne.x - landmarkTwo.x, landmarkOne.y - landmarkTwo.y, landmarkOne.z - landmarkTwo.z])
     vectorTwo = np.array([landmarkTwo.x - landmarkThree.x, landmarkTwo.y - landmarkThree.y, landmarkTwo.z - landmarkThree.z])
@@ -19,8 +25,26 @@ def getAngle(landmarkOne, landmarkTwo, landmarkThree):
 
     return np.degrees(resultAngle)
 
-def getFingerGrip(fingerAngleOne, fingerAngleTwo, halfAngle, fullAngle):
-    # Finish this, also consider an alternate method
+def getFingerGrip(fingerAngleOne, fingerAngleTwo):
+    """Gets a grip type score given a fingers angles
+    
+    :fingerAngleOne: The angle at the middle joint
+    :fingerAngleTwo: The angle at the front joint
+    :Return: Angle score scaled on [0, 2] representing grip type"""
+
+    # Finish this
+    return 0
+
+# Takes the score or each finger and uses weighted average to estimate the overall grip type of the hand
+def totalGrip(scorePointer, scoreMiddle, scoreRing):
+    """Gets the total grip score of the hand
+    
+    :scorePointer: The grip score of the pointer finger
+    :scoreMiddle: The grip score of the middle finger
+    :scoreRing: The grip score of the ring finger
+    :Return: Total grip score on [0, 2] of the hand"""
+
+    # Finish this
     return 0
 
 # Load model prerequisites
