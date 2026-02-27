@@ -1,8 +1,12 @@
-# Import requird dependencies
+# ========================= Imports =========================
+
 import cv2
-import time
 import mediapipe as mp
 import numpy as np
+
+
+
+# ========================= Function Definitions =========================
 
 def getAngle(landmarkOne, landmarkTwo, landmarkThree):
     """Gets the angle at a joint based on position of surrounding ones
@@ -35,7 +39,6 @@ def getFingerGrip(fingerAngleOne, fingerAngleTwo):
     # Finish this
     return 0
 
-# Takes the score or each finger and uses weighted average to estimate the overall grip type of the hand
 def totalGrip(scorePointer, scoreMiddle, scoreRing):
     """Gets the total grip score of the hand
     
@@ -46,6 +49,10 @@ def totalGrip(scorePointer, scoreMiddle, scoreRing):
 
     # Finish this
     return 0
+
+
+
+# ========================= Main =========================
 
 # Load model prerequisites
 baseOptions = mp.tasks.BaseOptions
