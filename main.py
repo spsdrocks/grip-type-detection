@@ -6,6 +6,8 @@ import numpy as np
 
 
 
+
+
 # ========================= Function Definitions =========================
 
 def getAngle(landmarkOne, landmarkTwo, landmarkThree):
@@ -29,6 +31,8 @@ def getAngle(landmarkOne, landmarkTwo, landmarkThree):
 
     return np.degrees(resultAngle)
 
+
+
 def getFingerGrip(fingerAngleOne, fingerAngleTwo):
     """Gets a grip type score given a fingers angles
     
@@ -38,6 +42,25 @@ def getFingerGrip(fingerAngleOne, fingerAngleTwo):
 
     # Finish this
     return 0
+
+
+
+def getFingerGrip(fingerAngle):
+    """Gets a grip type score given a fingers angle
+    
+    :fingerAngle: The angle at the middle joint
+    :Return: Angle score scaled on [0, 2] representing grip type"""
+
+    if fingerAngle < 70:
+        return 0
+
+    elif fingerAngle < 90:
+        return 1
+
+    else:
+        return 2
+
+
 
 def totalGrip(scorePointer, scoreMiddle, scoreRing):
     """Gets the total grip score of the hand
@@ -49,6 +72,8 @@ def totalGrip(scorePointer, scoreMiddle, scoreRing):
 
     # Finish this
     return 0
+
+
 
 
 
@@ -123,9 +148,16 @@ while (inputVideo.isOpened()):
     middleAngleTwo = getAngle(hand_landmarks[10], hand_landmarks[11], hand_landmarks[12])
     ringAngleTwo = getAngle(hand_landmarks[14], hand_landmarks[15], hand_landmarks[16])
 
+    # Get grip type of pointer finger
+    pointerGripType = getFingerGrip(pointerAngleOne)
+
     # Print the angles on the video
-    # anglesString = "P: {}, M: {}, R: {}".format(round(np.degrees(pointerAngleOne), 2), round(np.degrees(middleAngleOne), 2), round(np.degrees(ringAngleOne), 2))
+    # anglesString = "P: {}, M: {}, R: {}".format(round(pointerAngleOne, 2), round(middleAngleOne, 2), round(ringAngleOne, 2))
     # cv2.putText(videoFrame, anglesString, (5, 120), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0))
+
+    # Print the pointer grip type on the video
+    pointerTypeString = "Pointer: {}, Angle: {}".format(pointerGripType, round(pointerAngleOne))
+    cv2.putText(videoFrame, pointerTypeString, (5, 120), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0))
 
     # Write the processed frame to output video
     outputVideo.write(videoFrame)
