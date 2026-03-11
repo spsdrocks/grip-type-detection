@@ -92,7 +92,7 @@ modelOptions = handLandmarkerOptions(base_options=baseOptions(model_asset_path='
 handLandmarker = mp.tasks.vision.HandLandmarker
 handLandmarker = handLandmarker.create_from_options(modelOptions)
 
-# Load input video file
+# Load input video file      -- Change to your video --
 inputVideo = cv2.VideoCapture("media/test_video_2.mp4")
 
 # Quit if file not found
