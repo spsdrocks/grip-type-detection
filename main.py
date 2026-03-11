@@ -70,8 +70,9 @@ def totalGrip(scorePointer, scoreMiddle, scoreRing):
     :scoreRing: The grip score of the ring finger
     :Return: Total grip score on [0, 2] of the hand"""
 
-    # Finish this
-    return 0
+    totalGripScore = 0.2 * scorePointer + 0.6 * scoreMiddle + 0.2 * scoreRing
+
+    return round(totalGripScore)
 
 
 
@@ -150,10 +151,6 @@ while (inputVideo.isOpened()):
 
     # Get grip type of pointer finger
     pointerGripType = getFingerGrip(pointerAngleOne)
-
-    # Print the angles on the video
-    # anglesString = "P: {}, M: {}, R: {}".format(round(pointerAngleOne, 2), round(middleAngleOne, 2), round(ringAngleOne, 2))
-    # cv2.putText(videoFrame, anglesString, (5, 120), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0))
 
     # Print the pointer grip type on the video
     pointerTypeString = "Pointer: {}, Angle: {}".format(pointerGripType, round(pointerAngleOne))
